@@ -1,0 +1,15 @@
+[
+  {
+    "DateIssue": "2019-06-20 ",
+    "DateForecast": "2019-06-20 ",
+    "ReportingArea": "Dallas-Fort Worth",
+    "StateCode": "TX",
+    "Latitude": 32.767,
+    "Longitude": -96.783,
+    "ParameterName": "O3",
+    "AQI": -1,
+    "Category": { "Number": 2, "Name": "Moderate" },
+    "ActionDay": false,
+    "Discussion": "https://www.tceq.texas.gov/airquality/monops/forecast_today.html"
+  }
+]
