@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 import Item from '../ui/Item'
 import Row from '../ui/Row'
 //@TODO: Create Logo to import
-import Logo from '../../../public/favicon.ico'
+// import Logo from '../../public/favicon.ico'
+
 const StyledItem = styled(Item)`
     display:flex;
     flex-direction:column;
@@ -27,7 +28,7 @@ export default ({ children, title }, ...props) => {
     <StyledItem width={[0.95, 0.8, 0.7]} {...props}>
         <Row justifyContent="center">
             <Link to="/">
-                <img src={Logo} alt="airQuality"/>
+                {/* <img src={Logo} alt="airQuality"/> */}
             </Link>
         </Row>
         <Row justifyContent="center">
