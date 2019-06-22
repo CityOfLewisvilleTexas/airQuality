@@ -7,10 +7,9 @@ const useFetch = url => {
     async function fetchData() {
       const response = await fetch(url);
       const text = await response.text()
-      const clippedText = await text.toString()
-      console.log(clippedText)
-      setData(clippedText)
+      setData(text)
       setLoading(false)
+      document.getElementById('fetched-text').innerHTML = text.substring(text.indexOf('<!-- Discussion Text -->'), text.indexOf('<p><a href="http://service.govdelivery.com/service/multi_subscribe.html?code=TXTCEQ&amp;origin=http://www.tceq.state.tx.us/e-services/success.html"> Sign up for e-mail updates</a></p>')) || 'N/A' 
     }
   
     useEffect(() => {
@@ -27,7 +26,7 @@ const useFetch = url => {
         <div>
             { loading ? <div>Loading...</div> : 
               <div style={{'backgroundColor':'#444'}}>
-                  <p>{data.substr(data.indexOf('<!-- Discussion Text -->'),43760) || 'N/A' }</p>
+                  <p id="fetched-text"></p>
               </div>
           }
   
