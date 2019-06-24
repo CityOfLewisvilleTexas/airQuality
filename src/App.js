@@ -7,7 +7,7 @@ import WebFont from 'webfontloader'
 
 WebFont.load({
     google: {
-        families: ['Muli:300,400,600', 'sans-serif']
+        families: ['Roboto Mono:300,400,600', 'sans-serif']
     }
 })
 function App() {

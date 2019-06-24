@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { apiURL, setColor } from "../../utils";
+import CustomLoader from '../../ui/Loader'
 
 const useFetch = url => {
   const [data, setData] = useState(null);
@@ -24,7 +25,7 @@ const AirQuality = props => {
 
   return (
       <div>
-          { loading ? <div>Loading...</div> : 
+          { loading ? <CustomLoader/> : 
             <div style={{'backgroundColor': setColor(data.Category.Number)}}>
                 <p>{data.DateForecast}</p>
                 <p>{data.Category.Number}</p>
