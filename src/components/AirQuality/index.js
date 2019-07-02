@@ -26,7 +26,7 @@ const AirQuality = props => {
   return (
       <div>
           { loading ? <CustomLoader/> : 
-            <div style={{'backgroundColor': setColor(data.Category.Number)}}>
+            <div style={{'backgroundColor': setColor(data.Category.Number), 'color': data.Category.Number === 2 ? '#000' : 'inherit'}}>
                 <p>{data.DateForecast}</p>
                 <p>{data.Category.Number}</p>
                 <p>{data.Category.Name}</p>
