@@ -41,6 +41,7 @@ export default {
       axios.post('https://query.cityoflewisville.com/v2/?webservice=MiscPrograms/GET Air Quality Index')
         .then(response => {
           this.index = response.data[0]
+          console.log('index', this.index)
         })
     }
   },

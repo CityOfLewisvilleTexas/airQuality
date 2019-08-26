@@ -48,13 +48,11 @@ export default {
           // .filter( (value, index, self) => {
           //   return self.indexOf(value) === index
           // }) 
-      },
-      getWeekOf() {
-        
       }
   },
   mounted() {
-   
+   console.log('nums', this.categoryNumbers)
+   console.log('dates', this.forecastDates)
   }
 };
 </script>
