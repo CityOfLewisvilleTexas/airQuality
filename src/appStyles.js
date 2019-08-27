@@ -13,8 +13,3 @@ color:#fff;
     }
 }
 `
-
-export const StyledH1 = styled.h1`
-font-weight:600;
-color: #AA0395;
-`

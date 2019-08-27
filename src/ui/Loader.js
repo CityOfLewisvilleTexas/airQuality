@@ -1,6 +1,6 @@
 import React from "react";
 import { Loader, Image, Segment } from "semantic-ui-react";
-import {StyledH1} from '../appStyles'
+import {StyledH1} from '../components/Header/styles'
 
 const CustomLoader = () => {
   return (
