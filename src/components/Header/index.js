@@ -1,6 +1,6 @@
 import React from "react";
 import { serviceURL } from "../../utils";
-import { StyledH1, DispatchButton } from './styles'
+import { StyledH1, StyledDiv } from './styles'
 import axios from 'axios'
 
 const dispatch = (status, bgColor, txtColor, index, date) => {
@@ -19,10 +19,10 @@ const dispatch = (status, bgColor, txtColor, index, date) => {
 
 const Header = props => {
     return (
-        <div>
+        <StyledDiv>
             <StyledH1>City of Lewisville | Air Quality Index</StyledH1>
-            <DispatchButton onMouseDown={dispatch(props.status, props.bgColor, props.txtColor, props.index, props.date)}/>
-        </div>
+            {/* <DispatchButton onMouseDown={dispatch(props.status, props.bgColor, props.txtColor, props.index, props.date)}/> */}
+        </StyledDiv>
     )}
 
     export default Header

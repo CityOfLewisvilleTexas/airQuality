@@ -1,44 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { setColor, serviceURL } from "../../utils";
+import React from "react";
+import { setColor, serviceURL, useServiceFetch } from "../../utils";
 import CustomLoader from '../../ui/Loader'
+import Modal from '../Modal'
 import moment from 'moment'
 import Header from '../Header'
 
-const useServiceFetch = url => {
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(true)
-
-  async function fetchData() {
-    const response = await fetch(url)
-    const json = await response.json()
-    setData(json[0])
-    console.log(data)
-    setLoading(false)
-  }
-  useEffect(() => {
-    fetchData()
-  }, [url]);
-
-  return {loading, data}
-}
-
-const useFetch = url => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true)
-
-  async function fetchData() {
-    const response = await fetch(url);
-    const json = await response.json()
-    setData(json[0])
-    setLoading(false)
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, [url]);
-
-  return {loading, data};
-};
 
 const AirQuality = props => {
   const {loading, data} = useServiceFetch(`${serviceURL}MiscPrograms/GET Air Quality Index`)
@@ -56,6 +22,7 @@ const AirQuality = props => {
   return (
     <div>
       <Header status={status} bgColor={bgColor} txtColor={txtColor} index={index} date={date} />
+      <Modal />
       <div>
           { loading ? <CustomLoader/> : 
             <div style={{'padding': '30px', 'backgroundColor': setColor(data[0]["CategoryNumber"]), 'color': data[0]["CategoryNumber"] === "2" ? '#000' : 'inherit'}}>
