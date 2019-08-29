@@ -21,8 +21,8 @@ const AirQuality = props => {
 
   return (
     <div>
-      <Header status={status} bgColor={bgColor} txtColor={txtColor} index={index} date={date} />
-      <Modal />
+      <Header />
+      <Modal status={status} bgColor={bgColor} txtColor={txtColor} index={index} date={date}/>
       <div>
           { loading ? <CustomLoader/> : 
             <div style={{'padding': '30px', 'backgroundColor': setColor(data[0]["CategoryNumber"]), 'color': data[0]["CategoryNumber"] === "2" ? '#000' : 'inherit'}}>
