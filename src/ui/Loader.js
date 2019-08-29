@@ -4,8 +4,8 @@ import {StyledH1} from '../components/Header/styles'
 
 const CustomLoader = () => {
   return (
-    <Segment inverted>
-      <Loader active inverted />
+    <Segment>
+      <Loader active />
         <StyledH1>Loading...</StyledH1>
       <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
     </Segment>

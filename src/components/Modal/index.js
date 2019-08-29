@@ -1,17 +1,37 @@
-import React from 'react'
-import { Header, Modal, Checkbox, Button } from 'semantic-ui-react'
+import React, {useState} from 'react'
+import { Header, Modal, Checkbox,  } from 'semantic-ui-react'
+import Snackbar from '@material-ui/core/Snackbar'
 import { DispatchButton } from './styles'
 import axios from 'axios'
 import { serviceURL, useServiceFetch } from '../../utils'
 
 const EmailModal = props => {
     const {emails} = useServiceFetch(`${serviceURL}HR/Get EmployeeEmails`)    
-    const infoTechEmployees = ['cholmes'].map(addr => addr += '@cityoflewisville.com')
+    const [state, setState] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+        color: null,
+        msg: null
+    })
+
+    const { vertical, horizontal, open, color, msg } = state
+    
+    const handleClick = newState => () => {
+        setState({...state, open:true})
+    }
+
+    function handleClose() {
+        setState({...state, open:false})
+    }
+    
+    const infoTechEmployees = ['cholmes', 'clarson'].map(addr => addr += '@cityoflewisville.com')
     // 'clarson', 'emayes', 'rvemuri', 'cfaught', 'tahmed', 'plake', 'lfischer' 
     const users = []
-
+    
     return (
-  <Modal style={{'position': 'absolute', 'top': '200px'}} trigger={<DispatchButton/>}>
+  <div>
+  <Modal closeIcon style={{'position': 'absolute', 'top': '200px'}} trigger={<DispatchButton/>}>
     <Modal.Header>Send Status Report</Modal.Header>
     <Modal.Content>
       <Modal.Description>
@@ -25,6 +45,7 @@ const EmailModal = props => {
                                   users.indexOf(email.EmailAddress) === -1 
                                   ? users.push(email.EmailAddress) 
                                   : users.splice(users.indexOf(email.EmailAddress))
+                                  console.log(users)
                               }} 
                               toggle style={{'display':'inline-block'}} id={email.EmailAddress}/>
                               <label htmlFor={email.EmailAddress}>
@@ -36,7 +57,7 @@ const EmailModal = props => {
              : ''
             }
             <div style={{'marginTop':'18px'}}>
-                <div class="ui animated button" tabindex="0" onClick={() => {
+                <div className="ui animated button" tabIndex="0" onClick={() => {
                     if(emails !== null) {
                         axios.post(serviceURL + 'ITS/uspDispatch_AirQualityIndex', {
                             Status: props.status,
@@ -44,43 +65,34 @@ const EmailModal = props => {
                             TxtColor: props.txtColor,
                             Index: props.index,
                             Date: props.date,
-                            User: users
+                            User: users.map(email => email += ';').join().replace(',','')
                         })
-                        .then(response => {
-
+                        .then( response => {
+                            setState({open:true, msg: 'Air Quality Index Alert has been sent.', color: 'green'})
                         })
                         .catch(err => {
-
+                            setState({open:true, msg: 'an error occurred', color: 'red'})
                         })
                     }
                 }} style={{'backgroundColor': 'green', 'color':'white'}}>
-                    <div class="visible content">Send</div>
-                        <div class="hidden content">
-                        <i class="right arrow icon"></i>
+                    <div className="visible content">Send</div>
+                        <div className="hidden content">
+                        <i className="right arrow icon"></i>
                     </div>
                 </div>
-                {/* <Button onClick={() => {
-                    if(emails !== null) {
-                        axios.post(serviceURL + 'ITS/uspDispatch_AirQualityIndex', {
-                            Status: props.status,
-                            BgColor: props.bgColor,
-                            TxtColor: props.txtColor,
-                            Index: props.index,
-                            Date: props.date,
-                            User: users
-                        })
-                        .then(response => {
-
-                        })
-                        .catch(err => {
-
-                        })
-                    }
-                }} style={{'backgroundColor': 'green', 'color':'white'}}>Send</Button> */}
             </div>
       </Modal.Description>
     </Modal.Content>
   </Modal>
+    <Snackbar 
+        color={state.color}
+        anchorOrigin={{ vertical:'top', horizontal:'center' }}
+        open={state.open}
+        onClose={handleClose}
+        message={<span id="message-id">{state.msg}</span>}
+        autoHideDuration={4000}
+    />
+</div>
   )}
 
 export default EmailModal
