@@ -25,7 +25,6 @@ const EmailModal = props => {
                                   users.indexOf(email.EmailAddress) === -1 
                                   ? users.push(email.EmailAddress) 
                                   : users.splice(users.indexOf(email.EmailAddress))
-                                  console.log(users)
                               }} 
                               toggle style={{'display':'inline-block'}} id={email.EmailAddress}/>
                               <label htmlFor={email.EmailAddress}>
@@ -37,7 +36,7 @@ const EmailModal = props => {
              : ''
             }
             <div style={{'marginTop':'18px'}}>
-                <Button onClick={() => {
+                <div class="ui animated button" tabindex="0" onClick={() => {
                     if(emails !== null) {
                         axios.post(serviceURL + 'ITS/uspDispatch_AirQualityIndex', {
                             Status: props.status,
@@ -47,8 +46,37 @@ const EmailModal = props => {
                             Date: props.date,
                             User: users
                         })
+                        .then(response => {
+
+                        })
+                        .catch(err => {
+
+                        })
                     }
-                }} style={{'backgroundColor': 'green', 'color':'white'}}>Send</Button>
+                }} style={{'backgroundColor': 'green', 'color':'white'}}>
+                    <div class="visible content">Send</div>
+                        <div class="hidden content">
+                        <i class="right arrow icon"></i>
+                    </div>
+                </div>
+                {/* <Button onClick={() => {
+                    if(emails !== null) {
+                        axios.post(serviceURL + 'ITS/uspDispatch_AirQualityIndex', {
+                            Status: props.status,
+                            BgColor: props.bgColor,
+                            TxtColor: props.txtColor,
+                            Index: props.index,
+                            Date: props.date,
+                            User: users
+                        })
+                        .then(response => {
+
+                        })
+                        .catch(err => {
+
+                        })
+                    }
+                }} style={{'backgroundColor': 'green', 'color':'white'}}>Send</Button> */}
             </div>
       </Modal.Description>
     </Modal.Content>
