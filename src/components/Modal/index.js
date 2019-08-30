@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Header, Modal, Checkbox,  } from 'semantic-ui-react'
+import { Header, Modal, Checkbox, Dropdown } from 'semantic-ui-react'
 import Snackbar from '@material-ui/core/Snackbar'
 import { DispatchButton } from './styles'
 import axios from 'axios'
@@ -12,11 +12,12 @@ const EmailModal = props => {
         vertical: 'top',
         horizontal: 'center',
         color: null,
-        msg: null
+        msg: null,
+        users: []
     })
 
-    const { vertical, horizontal, open, color, msg } = state
-    
+    const { vertical, horizontal, open, color, msg, users } = state
+
     const handleClick = newState => () => {
         setState({...state, open:true})
     }
@@ -25,10 +26,6 @@ const EmailModal = props => {
         setState({...state, open:false})
     }
     
-    const infoTechEmployees = ['cholmes', 'clarson'].map(addr => addr += '@cityoflewisville.com')
-    // 'clarson', 'emayes', 'rvemuri', 'cfaught', 'tahmed', 'plake', 'lfischer' 
-    const users = []
-    
     return (
   <div>
   <Modal closeIcon style={{'position': 'absolute', 'top': '200px'}} trigger={<DispatchButton/>}>
@@ -36,25 +33,45 @@ const EmailModal = props => {
     <Modal.Content>
       <Modal.Description>
         <Header>Select Recipients:</Header>
-            {emails !== null ? emails
-            .filter(email => infoTechEmployees.indexOf(email.EmailAddress) !== -1)
-            .map(email => {
-                return (
-                          <div style={{'padding':'12px', 'borderBottom': '1px solid #ddd', 'marginTop': '12px'}}>
-                              <Checkbox onMouseUp={() => {
-                                  users.indexOf(email.EmailAddress) === -1 
-                                  ? users.push(email.EmailAddress) 
-                                  : users.splice(users.indexOf(email.EmailAddress))
+            {emails !== null ? 
+                  <Dropdown 
+                            placeholder="Search and select recipients"
+                            fluid
+                            search
+                            selection
+                            onChange ={(...e) => {
+                                setState({...state, users:[...state.users,e[1].value]})
+                                console.log(users)
+                            }}
+                            options={emails.map(email => {
+                                return {
+                                    key: email.EmailAddress.substr(0, email.EmailAddress.indexOf('@')),
+                                    value: email.EmailAddress.toLowerCase(),
+                                    text: email.EmailAddress.toLowerCase()
+                                }
+                            })}
+                        />
+                    : ''
+            }
+            {state.users.length > 0 ?
+               <div style={{'marginTop':'12px', 'padding':'8px 40px', 'backgroundColor':'rgba(117,235,56,0.1)', 'borderRadius':'25px'}}> 
+                    <h3>Selected employees:</h3>
+                    {state.users.map(user => {
+                       return (
+                       <div>
+                            <Checkbox checked={users.includes(user)} onMouseUp={() => {
+                                  setState({...state, users: [state.users, state.users.splice(state.users.indexOf(user))]})
                                   console.log(users)
-                              }} 
-                              toggle style={{'display':'inline-block'}} id={email.EmailAddress}/>
-                              <label htmlFor={email.EmailAddress}>
-                                  <h3 style={{'display':'inline-block', 'verticalAlign': 'bottom', 'marginLeft': '8px'}}>{email.EmailAddress}</h3>
+                                  }} 
+                              style={{'display':'inline-block'}} id={user}/>
+                              <label htmlFor={user}>
+                                  <h3 style={{'display':'inline-block', 'verticalAlign': 'bottom', 'marginLeft': '8px'}}>{user}</h3>
                               </label>
-                          </div>
-                )
-            })
-             : ''
+                        </div>
+                       )
+                    })}
+               </div>
+               : ''
             }
             <div style={{'marginTop':'18px'}}>
                 <div className="ui animated button" tabIndex="0" onClick={() => {

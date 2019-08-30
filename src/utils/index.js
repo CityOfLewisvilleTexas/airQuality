@@ -12,7 +12,13 @@ export const useServiceFetch = url => {
     async function fetchData() {
       const response = await fetch(url)
       const json = await response.json()
-      setEmails(json[0])
+      setEmails(() => {
+          return json[0].reduce((acc, current) => {
+              const x = acc.find(item => item.EmailAddress === current.EmailAddress)
+              if(!x) return acc.concat([current])
+              else return acc
+            }, [])
+          })
       setData(json[0])
       setLoading(false)
     }
