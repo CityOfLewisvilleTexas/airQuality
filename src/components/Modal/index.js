@@ -13,10 +13,11 @@ const EmailModal = props => {
         horizontal: 'center',
         color: null,
         msg: null,
-        users: []
+        users: [],
+        allEmps: false
     })
 
-    const { vertical, horizontal, open, color, msg, users } = state
+    const { vertical, horizontal, open, color, msg, users, allEmps } = state
 
     const handleClick = newState => () => {
         setState({...state, open:true})
@@ -40,7 +41,7 @@ const EmailModal = props => {
                             search
                             selection
                             onChange ={(...e) => {
-                                setState({...state, users:[...state.users,e[1].value]})
+                                setState({...state, users:[...users, e[1].value]})
                                 console.log(users)
                             }}
                             options={emails.map(email => {
@@ -53,14 +54,15 @@ const EmailModal = props => {
                         />
                     : ''
             }
-            {state.users.length > 0 ?
+            {state.users.length > 0 && allEmps === false ?
                <div style={{'marginTop':'12px', 'padding':'8px 40px', 'backgroundColor':'rgba(117,235,56,0.1)', 'borderRadius':'25px'}}> 
                     <h3>Selected employees:</h3>
                     {state.users.map(user => {
                        return (
-                       <div>
-                            <Checkbox checked={users.includes(user)} onMouseUp={() => {
-                                  setState({...state, users: [state.users, state.users.splice(state.users.indexOf(user))]})
+                       <div style={{'paddingTop':'12px'}}>
+                            <Checkbox checked={users.includes(user)} onChange={() => {
+                                debugger;
+                                  setState({...state, users: state.users.filter(u => u !== user)})
                                   console.log(users)
                                   }} 
                               style={{'display':'inline-block'}} id={user}/>
@@ -73,6 +75,16 @@ const EmailModal = props => {
                </div>
                : ''
             }
+            <Checkbox style={{'marginTop': '18px'}} toggle checked={allEmps === true} onChange={() => {
+                        setState({...state,
+                         users: users.length >= emails.length ? [] : emails.map(e => e.EmailAddress),
+                         allEmps: allEmps === false ? true : false
+                         })}
+                        } id="all_emps"
+                    />
+                    <label htmlFor="all_emps">
+                        <h3 style={{'display':'inline-block', 'verticalAlign': 'bottom', 'marginLeft': '8px'}}><b>Toggle for all employees</b></h3>
+                    </label>
             <div style={{'marginTop':'18px'}}>
                 <div className="ui animated button" tabIndex="0" onClick={() => {
                     if(emails !== null) {
@@ -82,13 +94,17 @@ const EmailModal = props => {
                             TxtColor: props.txtColor,
                             Index: props.index,
                             Date: props.date,
-                            User: users.map(email => email += ';').join().replace(',','')
+                            User: users ? users.map(email => email += ';').join().replace(',','') : 'cholmes@cityoflewisville.com'
                         })
                         .then( response => {
-                            setState({open:true, msg: 'Air Quality Index Alert has been sent.', color: 'green'})
+                            setState({open:true, msg: 'Air Quality Index Alert has been sent.', color: 'green', users: 0})
                         })
                         .catch(err => {
-                            setState({open:true, msg: 'an error occurred', color: 'red'})
+                            if(users.length < 1) {
+                                setState({open:true, msg: 'Please select at least one employee', color: 'red', users: 0})
+                            } else {
+                                setState({open:true, msg: `An error occurred, ${err}`, color: 'red', users: 0})
+                            }
                         })
                     }
                 }} style={{'backgroundColor': 'green', 'color':'white'}}>
