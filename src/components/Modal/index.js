@@ -77,7 +77,7 @@ const EmailModal = props => {
             }
             <Checkbox style={{'marginTop': '18px'}} toggle checked={allEmps === true} onChange={() => {
                         setState({...state,
-                         users: users.length >= emails.length ? [] : emails.map(e => e.EmailAddress),
+                         users: users.length >= 1 ? [] : ['everyone@cityoflewisville.com'],
                          allEmps: allEmps === false ? true : false
                          })}
                         } id="all_emps"
@@ -97,13 +97,13 @@ const EmailModal = props => {
                             User: users ? users.map(email => email += ';').join().replace(',','') : 'cholmes@cityoflewisville.com'
                         })
                         .then( response => {
-                            setState({open:true, msg: 'Air Quality Index Alert has been sent.', color: 'green', users: 0})
+                            setState({open:true, msg: 'Air Quality Index Alert has been sent.', color: 'green', users: []})
                         })
                         .catch(err => {
                             if(users.length < 1) {
-                                setState({open:true, msg: 'Please select at least one employee', color: 'red', users: 0})
+                                setState({open:true, msg: 'Please select at least one employee', color: 'red', users: []})
                             } else {
-                                setState({open:true, msg: `An error occurred, ${err}`, color: 'red', users: 0})
+                                setState({open:true, msg: `An error occurred, ${err}`, color: 'red', users: []})
                             }
                         })
                     }
