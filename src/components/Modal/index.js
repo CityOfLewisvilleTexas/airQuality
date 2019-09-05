@@ -34,7 +34,7 @@ const EmailModal = props => {
     <Modal.Content>
       <Modal.Description>
         <Header>Select Recipients:</Header>
-            {emails !== null ? 
+            {emails !== null && allEmps !== true ? 
                   <Dropdown 
                             placeholder="Search and select recipients"
                             fluid
