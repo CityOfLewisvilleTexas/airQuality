@@ -97,13 +97,13 @@ const EmailModal = props => {
                             User: users ? users.map(email => email += ';').join().replace(',','') : 'cholmes@cityoflewisville.com'
                         })
                         .then( response => {
-                            setState({open:true, msg: 'Air Quality Index Alert has been sent.', color: 'green', users: []})
+                            setState({open:true, msg: 'Air Quality Index Alert has been sent.', color: 'green', users: [], allEmps: false})
                         })
                         .catch(err => {
                             if(users.length < 1) {
-                                setState({open:true, msg: 'Please select at least one employee', color: 'red', users: []})
+                                setState({open:true, msg: 'Please select at least one employee', color: 'red', users: [], allEmps: false})
                             } else {
-                                setState({open:true, msg: `An error occurred, ${err}`, color: 'red', users: []})
+                                setState({open:true, msg: `An error occurred, ${err}`, color: 'red', users: [], allEmps: false})
                             }
                         })
                     }
